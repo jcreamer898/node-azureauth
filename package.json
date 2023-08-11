@@ -1,0 +1,16 @@
+{
+  "name": "azureauth",
+  "version": "1.0.0",
+  "description": "node-azure auth wrapps the AzureAuth CLI wrapper for performing AAD Authentication",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node ./scripts/install.mjs"
+  },
+  "keywords": ["node", "azureauth", "aad", "azure active directory", "authentication"],
+  "author": "Jonathan Creamer",
+  "license": "ISC",
+  "dependencies": {
+    "decompress": "^4.2.1",
+    "node-downloader-helper": "^2.1.9"
+  }
+}
