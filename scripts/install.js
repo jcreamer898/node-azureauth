@@ -3,6 +3,8 @@ import fs from "fs";
 import { DownloaderHelper } from "node-downloader-helper";
 import decompress from "decompress";
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+
 async function download(url, saveDirectory) {
   const downloader = new DownloaderHelper(url, saveDirectory);
   return new Promise((resolve, reject) => {
@@ -114,3 +116,4 @@ export const install = async () => {
   }
 };
 
+await install();
