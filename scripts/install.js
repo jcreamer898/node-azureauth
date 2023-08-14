@@ -55,7 +55,7 @@ export const install = async () => {
   };
 
   if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR);
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     console.info(`${OUTPUT_DIR} directory was created`);
   }
 
