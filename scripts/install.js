@@ -85,25 +85,25 @@ export const install = async () => {
       arch in DOWNLOAD_MAP[platform]
         ? DOWNLOAD_MAP[platform][arch]
         : DOWNLOAD_MAP[platform].def;
-    
-        const url = `${AZUREAUTH_INFO.url}${AZUREAUTH_INFO.version}/${filename}`;
+
+    const url = `${AZUREAUTH_INFO.url}${AZUREAUTH_INFO.version}/${filename}`;
     const distPath = path.join(OUTPUT_DIR, "azureauth");
     const archivePath = path.join(OUTPUT_DIR, filename);
-    
+
     console.log(`Downloading azureauth from ${url}`);
     await download(url, OUTPUT_DIR);
-    
+
     console.log(`Downloaded in ${OUTPUT_DIR}`);
-    
+
     // Make a dir to uncompress the zip or tar into
     fs.mkdirSync(distPath, {
       recursive: true,
     });
 
     const binaryPath = path.join(distPath, AZUREAUTH_NAME);
-    
+
     await decompress(archivePath, distPath);
-    
+
     if (fileExist(binaryPath)) {
       fs.chmodSync(binaryPath, fs.constants.S_IXUSR || 0o100);
       // Huan(202111): we need the read permission so that the build system can pack the node_modules/ folder,

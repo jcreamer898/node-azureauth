@@ -24,3 +24,16 @@ Use the `azureauth` CLI by calling it from NPM scripts.
 ```bash
 > npm run authcli
 ```
+
+Use it as a node module by importing azureauth.
+
+```js
+import { adoPat } from "azureauth";
+
+const pat = await adoPat({
+  displayName: "test",
+  organization: "test",
+  promptHint: "test",
+  scope: ["test"],
+});
+```

@@ -7,14 +7,29 @@
   },
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "start": "tsc --watch",
+    "test": "vitest src",
     "postinstall": "node ./scripts/install.js"
   },
-  "keywords": ["node", "azureauth", "aad", "azure active directory", "authentication"],
+  "keywords": [
+    "node",
+    "azureauth",
+    "aad",
+    "azure active directory",
+    "authentication"
+  ],
   "author": "Jonathan Creamer",
   "license": "ISC",
   "dependencies": {
-    "execa": "^7.2.0",
     "decompress": "^4.2.1",
+    "execa": "^7.2.0",
     "node-downloader-helper": "^2.1.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.0",
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.1",
+    "vite": "^4.4.9"
   }
 }
