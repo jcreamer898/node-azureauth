@@ -2,8 +2,9 @@
 import path from "node:path";
 import process from "node:process";
 import { execa } from "execa";
+import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 let azureauth = path.join(__dirname, "bin", "azureauth", "azureauth");
 
