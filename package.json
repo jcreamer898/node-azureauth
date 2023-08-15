@@ -5,6 +5,7 @@
   "bin": {
     "azureauth": "./cli.js"
   },
+  "main": "lib/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",

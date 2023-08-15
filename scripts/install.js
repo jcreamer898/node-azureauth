@@ -2,8 +2,9 @@ import path from "path";
 import fs from "fs";
 import { DownloaderHelper } from "node-downloader-helper";
 import decompress from "decompress";
+import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname).substring(1);
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 async function download(url, saveDirectory) {
   const downloader = new DownloaderHelper(url, saveDirectory);
