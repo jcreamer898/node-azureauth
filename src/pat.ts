@@ -59,7 +59,7 @@ export const args = (options: AdoPatOptions) => {
  * @returns ADO PAT details
  */
 export const run = async (
-  options: AdoPatOptions
+  options: AdoPatOptions,
 ): Promise<AdoPatResponse | string> => {
   const commandArgs = args(options);
 
