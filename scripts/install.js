@@ -2,9 +2,9 @@ import path from "path";
 import fs from "fs";
 import { DownloaderHelper } from "node-downloader-helper";
 import decompress from "decompress";
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from "url";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 async function download(url, saveDirectory) {
   const downloader = new DownloaderHelper(url, saveDirectory);
@@ -73,6 +73,7 @@ export const install = async () => {
     darwin: {
       def: "azureauth",
       x64: "azureauth-0.8.2-osx-x64.tar.gz",
+      arm64: "azureauth-0.8.2-osx-arm64.tar.gz",
     },
     // TODO: support linux when the binaries are available
     // linux: {
@@ -92,8 +93,11 @@ export const install = async () => {
     const archivePath = path.join(OUTPUT_DIR, filename);
 
     console.log(`Downloading azureauth from ${url}`);
-    await download(url, OUTPUT_DIR);
-
+    try {
+      await download(url, OUTPUT_DIR);
+    } catch (err) {
+      throw new Error(`Download failed: ${err.message}`);
+    }
     console.log(`Downloaded in ${OUTPUT_DIR}`);
 
     // Make a dir to uncompress the zip or tar into
@@ -117,4 +121,15 @@ export const install = async () => {
   }
 };
 
-await install();
+const MAX_RETRIES = 3;
+for (let i = 0; i < MAX_RETRIES; i++) {
+  try {
+    await install();
+    break; // success, so exit the loop
+  } catch (err) {
+    console.log(`Install failed: ${err.message}`);
+  }
+  if (i === MAX_RETRIES - 1) {
+    throw new Error(`Install failed after ${MAX_RETRIES} attempts`);
+  }
+}
