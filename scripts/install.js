@@ -129,7 +129,7 @@ for(let i = 0; i < MAX_RETRIES; i++) {
   } catch (err) {
     console.log(`Install failed: ${err.message}`);
   }
-  if(i === MAX_RETRIES) {
+  if(i === (MAX_RETRIES-1)) {
     throw new Error(`Install failed after ${MAX_RETRIES} attempts`)
   }
 }
