@@ -2,9 +2,9 @@ import path from "path";
 import fs from "fs";
 import { DownloaderHelper } from "node-downloader-helper";
 import decompress from "decompress";
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from "url";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 async function download(url, saveDirectory) {
   const downloader = new DownloaderHelper(url, saveDirectory);
@@ -67,13 +67,11 @@ export const install = async () => {
   // if platform is missing, download source instead of executable
   const DOWNLOAD_MAP = {
     win32: {
-      def: "azureauth.exe",
       x64: "azureauth-0.8.2-win10-x64.zip",
     },
     darwin: {
-      def: "azureauth",
       x64: "azureauth-0.8.2-osx-x64.tar.gz",
-      arm64: "azureauth-0.8.2-osx-arm64.tar.gz"
+      arm64: "azureauth-0.8.2-osx-arm64.tar.gz",
     },
     // TODO: support linux when the binaries are available
     // linux: {
@@ -83,11 +81,12 @@ export const install = async () => {
   };
   if (platform in DOWNLOAD_MAP) {
     // download the executable
-    const filename =
-      arch in DOWNLOAD_MAP[platform]
-        ? DOWNLOAD_MAP[platform][arch]
-        : DOWNLOAD_MAP[platform].def;
-
+    let filename = "";
+    if (arch in DOWNLOAD_MAP[platform]) {
+      filename = DOWNLOAD_MAP[platform][arch];
+    } else {
+      throw new Error("Arch is not supported in azureauth");
+    }
     const url = `${AZUREAUTH_INFO.url}${AZUREAUTH_INFO.version}/${filename}`;
     const distPath = path.join(OUTPUT_DIR, "azureauth");
     const archivePath = path.join(OUTPUT_DIR, filename);
@@ -96,7 +95,7 @@ export const install = async () => {
     try {
       await download(url, OUTPUT_DIR);
     } catch (err) {
-      throw new Error(`Download failed: ${err.message}`)
+      throw new Error(`Download failed: ${err.message}`);
     }
     console.log(`Downloaded in ${OUTPUT_DIR}`);
 
@@ -122,14 +121,14 @@ export const install = async () => {
 };
 
 const MAX_RETRIES = 3;
-for(let i = 0; i < MAX_RETRIES; i++) {
+for (let i = 0; i < MAX_RETRIES; i++) {
   try {
     await install();
     break; // success, so exit the loop
   } catch (err) {
     console.log(`Install failed: ${err.message}`);
   }
-  if(i === MAX_RETRIES) {
-    throw new Error(`Install failed after ${MAX_RETRIES} attempts`)
+  if (i === MAX_RETRIES - 1) {
+    throw new Error(`Install failed after ${MAX_RETRIES} attempts`);
   }
 }
