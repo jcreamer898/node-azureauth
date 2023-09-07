@@ -67,11 +67,9 @@ export const install = async () => {
   // if platform is missing, download source instead of executable
   const DOWNLOAD_MAP = {
     win32: {
-      def: "azureauth.exe",
       x64: "azureauth-0.8.2-win10-x64.zip",
     },
     darwin: {
-      def: "azureauth",
       x64: "azureauth-0.8.2-osx-x64.tar.gz",
       arm64: "azureauth-0.8.2-osx-arm64.tar.gz",
     },
@@ -83,11 +81,12 @@ export const install = async () => {
   };
   if (platform in DOWNLOAD_MAP) {
     // download the executable
-    const filename =
-      arch in DOWNLOAD_MAP[platform]
-        ? DOWNLOAD_MAP[platform][arch]
-        : DOWNLOAD_MAP[platform].def;
-
+    let filename = "";
+    if (arch in DOWNLOAD_MAP[platform]) {
+      filename = DOWNLOAD_MAP[platform][arch];
+    } else {
+      throw new Error("Arch is not supported in azureauth");
+    }
     const url = `${AZUREAUTH_INFO.url}${AZUREAUTH_INFO.version}/${filename}`;
     const distPath = path.join(OUTPUT_DIR, "azureauth");
     const archivePath = path.join(OUTPUT_DIR, filename);
