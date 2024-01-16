@@ -5,6 +5,9 @@
   "bin": {
     "azureauth": "./cli.js"
   },
+  "repository": {
+    "url": "https://github.com/jcreamer898/node-azureauth"
+  },
   "main": "lib/index.js",
   "type": "module",
   "scripts": {
