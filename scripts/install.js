@@ -5,6 +5,7 @@ import decompress from "decompress";
 import { fileURLToPath } from "url";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const AZURE_AUTH_VERSION = "0.8.4";
 
 async function download(url, saveDirectory) {
   const downloader = new DownloaderHelper(url, saveDirectory);
@@ -27,11 +28,11 @@ const arch = process.arch;
 
 const AZUREAUTH_INFO = {
   name: "azureauth",
-  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/0.8.2/azureauth-0.8.2-osx-arm64.tar.gz
-  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/0.8.2/azureauth-0.8.2-osx-x64.tar.gz
-  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/0.8.2/azureauth-0.8.2-win10-x64.zip
+  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/${AZUREAUTH_INFO.version}/azureauth-${AZUREAUTH_INFO.version}-osx-arm64.tar.gz
+  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/${AZUREAUTH_INFO.version}/azureauth-${AZUREAUTH_INFO.version}-osx-x64.tar.gz
+  // https://github.com/AzureAD/microsoft-authentication-cli/releases/download/${AZUREAUTH_INFO.version}/azureauth-${AZUREAUTH_INFO.version}-win10-x64.zip
   url: "https://github.com/AzureAD/microsoft-authentication-cli/releases/download/",
-  version: "0.8.2",
+  version: AZURE_AUTH_VERSION,
 };
 
 const AZUREAUTH_NAME_MAP = {
@@ -67,16 +68,16 @@ export const install = async () => {
   // if platform is missing, download source instead of executable
   const DOWNLOAD_MAP = {
     win32: {
-      x64: "azureauth-0.8.2-win10-x64.zip",
+      x64: `azureauth-${AZUREAUTH_INFO.version}-win10-x64.zip`,
     },
     darwin: {
-      x64: "azureauth-0.8.2-osx-x64.tar.gz",
-      arm64: "azureauth-0.8.2-osx-arm64.tar.gz",
+      x64: `azureauth-${AZUREAUTH_INFO.version}-osx-x64.tar.gz`,
+      arm64: `azureauth-${AZUREAUTH_INFO.version}-osx-arm64.tar.gz`,
     },
     // TODO: support linux when the binaries are available
     // linux: {
     //   def: "azureauth.exe",
-    //   x64: "azureauth-0.8.2-win10-x64.zip",
+    //   x64: "azureauth-${AZUREAUTH_INFO.version}-win10-x64.zip",
     // },
   };
   if (platform in DOWNLOAD_MAP) {
